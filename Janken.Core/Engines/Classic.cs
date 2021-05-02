@@ -1,20 +1,19 @@
-#nullable enable
-
 using System;
 using System.Collections.Generic;
+using Janken.Core.Models;
 
-namespace Janken.Console.Models
+namespace Janken.Core.Engines
 {
-    public class ClassicGame : IGame
+    public class Classic : IEngine
     {
         public IPlayer PlayerOne { get; init; }
         
         public IPlayer PlayerTwo { get; init; }
 
-        public ClassicGame(IPlayer playerOne, IPlayer playerTwo) =>
+        public Classic(IPlayer playerOne, IPlayer playerTwo) =>
             (PlayerOne, PlayerTwo) = (playerOne, playerTwo);
 
-        public List<string> Choices => new() { "rock", "paper", "scissors"};
+        public List<string> Choices => new() { "Rock", "Paper", "Scissors"};
 
         private Dictionary<string, string> Table => new ()
         {

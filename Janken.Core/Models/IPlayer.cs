@@ -1,8 +1,6 @@
-#nullable enable
-
 using System.Collections.Generic;
 
-namespace Janken.Console.Models
+namespace Janken.Core.Models
 {
     public interface IPlayer
     {

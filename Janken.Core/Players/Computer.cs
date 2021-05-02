@@ -1,17 +1,16 @@
-#nullable enable
-
 using System;
 using System.Collections.Generic;
+using Janken.Core.Models;
 
-namespace Janken.Console.Models
+namespace Janken.Core.Players
 {
-    public class ComputerPlayer : IPlayer
+    public class Computer : IPlayer
     {
         public string Name { get; set; }
 
         public string? Choice { get; set; }
 
-        public ComputerPlayer(string name) => Name = name;
+        public Computer(string name) => Name = name;
 
         public string Prompt(List<string> choices)
         {

@@ -1,10 +1,8 @@
-#nullable enable
-
 using System.Collections.Generic;
 
-namespace Janken.Console.Models
+namespace Janken.Core.Models
 {
-    public interface IGame
+    public interface IEngine
     {
         public IPlayer PlayerOne { get; init; }
 

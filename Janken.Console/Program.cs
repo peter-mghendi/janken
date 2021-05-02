@@ -1,60 +1,40 @@
-﻿using System.Reflection.Metadata;
+﻿#nullable enable
+
 using System;
 using System.Linq;
-using Janken.Console.Models;
+using Janken.Core;
+using Janken.Core.Models;
 
+System.Console.WriteLine("Janken! v1.0.0");
 
-var game = SelectGame(SelectPlayer(1), SelectPlayer(2));
+var engine = SelectEngine(SelectPlayer(1), SelectPlayer(2));
+var game = new Game(engine);
+var result = game.Start();
 
-// TODO Abstract this away properly
-game.PlayerOne.Choice = game.PlayerOne.Prompt(game.Choices);
-game.PlayerTwo.Choice = game.PlayerTwo.Prompt(game.Choices);
+System.Console.WriteLine($"{engine.PlayerOne.Name} chose {engine.PlayerOne.Choice}!");
+System.Console.WriteLine($"{engine.PlayerTwo.Name} chose {engine.PlayerTwo.Choice}!");
+System.Console.WriteLine(result);
 
-System.Console.WriteLine($"{game.PlayerOne.Name} chose {game.PlayerOne.Choice}!");
-System.Console.WriteLine($"{game.PlayerTwo.Name} chose {game.PlayerTwo.Choice}!");
-
-string winnerString = game.Evaluate() switch
+static IEngine SelectEngine(IPlayer playerOne, IPlayer playerTwo)
 {
-    IPlayer player => $"{player.Name} wins!",
-    _ => "It's a tie!"
-};
+    var engineList = string.Join('\n', Game.Engines.Select((type, i) => $"{i}: {type.Name}"));
+    System.Console.Write($"Pick an engine:\n{engineList}\n\nYour choice: ");
+    int choice = Convert.ToInt32(System.Console.ReadLine());
+    Console.WriteLine($"Starting game with {Game.Engines[choice].Name.ToLower()} engine.\n");
 
-System.Console.WriteLine(winnerString);
-
-
-static IGame SelectGame(IPlayer playerOne, IPlayer playerTwo)
-{
-    // TODO Reflection/Source Generators
-    var games = new[] { "Classic" };
-    var gameList = string.Join('\n', games.Select((item, i) => $"{i}: {item}"));
-    System.Console.Write($"Pick a game:\n{gameList}\n\nYour choice: ");
-    int choice = int.Parse(System.Console.ReadLine());
-    System.Console.WriteLine();
-
-    return choice switch
-    {
-        0 => new ClassicGame(playerOne, playerTwo),
-        _ => throw new Exception("Unrecognized game")
-    };
+    return Game.SelectEngine(choice, playerOne, playerTwo);
 }
 
 static IPlayer SelectPlayer(int playerNumber)
 {
-    // TODO Reflection/Source Generators
-    var players = new[] { "Human", "Computer" };
-    var playerList = string.Join('\n', players.Select((item, i) => $"{i}: {item}"));
+    var playerList = string.Join('\n', Game.Players.Select((type, i) => $"{i}: {type.Name}"));
     System.Console.Write($"Pick a player type for player {playerNumber}:\n{playerList}\n\nYour choice: ");
-    int choice = int.Parse(System.Console.ReadLine());
-    System.Console.WriteLine();
 
-    System.Console.Write($"Enter a name for {players[choice]} player: ");
-    var name = System.Console.ReadLine();
-    System.Console.WriteLine();
+    int choice = Convert.ToInt32(System.Console.ReadLine());
+    System.Console.Write($"Enter a name for {Game.Players[choice].Name.ToLower()} player: ");
 
-    return choice switch
-    {
-        0 => new HumanPlayer(name),
-        1 => new ComputerPlayer(name),
-        _ => throw new Exception("Unrecognized player")
-    };
+    var name = System.Console.ReadLine() ?? string.Empty;
+    System.Console.WriteLine($"\n{name} has joined the game!\n");
+
+    return Game.SelectPlayer(choice, name);
 }
