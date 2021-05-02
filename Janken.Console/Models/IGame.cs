@@ -10,6 +10,8 @@ namespace Janken.Console.Models
 
         public IPlayer PlayerTwo { get; init; }
 
-        public IPlayer? Start();
+        public List<string> Choices { get; }
+
+        public IPlayer? Evaluate();
     }
 }

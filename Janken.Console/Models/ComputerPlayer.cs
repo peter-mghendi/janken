@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +8,10 @@ namespace Janken.Console.Models
     public class ComputerPlayer : IPlayer
     {
         public string Name { get; set; }
+
+        public string? Choice { get; set; }
+
+        public ComputerPlayer(string name) => Name = name;
 
         public string Prompt(List<string> choices)
         {

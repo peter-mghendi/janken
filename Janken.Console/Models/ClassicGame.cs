@@ -1,5 +1,6 @@
 #nullable enable
 
+using System;
 using System.Collections.Generic;
 
 namespace Janken.Console.Models
@@ -13,7 +14,7 @@ namespace Janken.Console.Models
         public ClassicGame(IPlayer playerOne, IPlayer playerTwo) =>
             (PlayerOne, PlayerTwo) = (playerOne, playerTwo);
 
-        private List<string> Choices => new() { "rock", "paper", "scissors"};
+        public List<string> Choices => new() { "rock", "paper", "scissors"};
 
         private Dictionary<string, string> Table => new ()
         {
@@ -22,18 +23,15 @@ namespace Janken.Console.Models
             [Choices[0]] = Choices[2],
         };
 
-        public IPlayer? Start()
+        public IPlayer? Evaluate()
         {
-            var playerOneChoice = PlayerOne.Prompt(Choices);
-            var playerTwoChoice = PlayerTwo.Prompt(Choices);
+            if (PlayerOne.Choice is null || PlayerTwo.Choice is null)
+                throw new Exception("A choice is null");
 
-            System.Console.WriteLine($"{PlayerOne.Name} chose {playerOneChoice}!");
-            System.Console.WriteLine($"{PlayerTwo.Name} chose {playerTwoChoice}!");
-
-            if (Table[playerOneChoice] == playerTwoChoice)
+            if (Table[PlayerOne.Choice] == PlayerTwo.Choice)
                 return PlayerOne;
             
-            if (playerOneChoice == playerTwoChoice)
+            if (PlayerOne.Choice == PlayerTwo.Choice)
                 return null;
 
             return PlayerTwo;

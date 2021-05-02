@@ -1,57 +1,60 @@
-﻿using System;
+﻿using System.Reflection.Metadata;
+using System;
 using System.Linq;
 using Janken.Console.Models;
 
-namespace Janken.Console
+
+var game = SelectGame(SelectPlayer(1), SelectPlayer(2));
+
+// TODO Abstract this away properly
+game.PlayerOne.Choice = game.PlayerOne.Prompt(game.Choices);
+game.PlayerTwo.Choice = game.PlayerTwo.Prompt(game.Choices);
+
+System.Console.WriteLine($"{game.PlayerOne.Name} chose {game.PlayerOne.Choice}!");
+System.Console.WriteLine($"{game.PlayerTwo.Name} chose {game.PlayerTwo.Choice}!");
+
+string winnerString = game.Evaluate() switch
 {
-    class Program
+    IPlayer player => $"{player.Name} wins!",
+    _ => "It's a tie!"
+};
+
+System.Console.WriteLine(winnerString);
+
+
+static IGame SelectGame(IPlayer playerOne, IPlayer playerTwo)
+{
+    // TODO Reflection/Source Generators
+    var games = new[] { "Classic" };
+    var gameList = string.Join('\n', games.Select((item, i) => $"{i}: {item}"));
+    System.Console.Write($"Pick a game:\n{gameList}\n\nYour choice: ");
+    int choice = int.Parse(System.Console.ReadLine());
+    System.Console.WriteLine();
+
+    return choice switch
     {
-        static void Main(string[] args)
-        {
-            var winner = SelectGame(SelectPlayer(1), SelectPlayer(2)).Start();
+        0 => new ClassicGame(playerOne, playerTwo),
+        _ => throw new Exception("Unrecognized game")
+    };
+}
 
-            string winnerString = winner switch {
-                not null => $"{winner.Name} wins!",
-                _ => "It's a tie!"
-            };
+static IPlayer SelectPlayer(int playerNumber)
+{
+    // TODO Reflection/Source Generators
+    var players = new[] { "Human", "Computer" };
+    var playerList = string.Join('\n', players.Select((item, i) => $"{i}: {item}"));
+    System.Console.Write($"Pick a player type for player {playerNumber}:\n{playerList}\n\nYour choice: ");
+    int choice = int.Parse(System.Console.ReadLine());
+    System.Console.WriteLine();
 
-            System.Console.WriteLine(winnerString);
-        }
+    System.Console.Write($"Enter a name for {players[choice]} player: ");
+    var name = System.Console.ReadLine();
+    System.Console.WriteLine();
 
-        private static IGame SelectGame(IPlayer playerOne, IPlayer playerTwo)
-        {
-            // TODO Reflection/Source Generators
-            var games = new[] { "Classic" };
-            var gameList = string.Join('\n', games.Select((item, i) => $"{i}: {item}"));
-            System.Console.Write($"Pick a game:\n{gameList}\n\nYour choice: ");
-            int choice = int.Parse(System.Console.ReadLine());
-            System.Console.WriteLine();
-
-            return choice switch {
-                0 => new ClassicGame(playerOne, playerTwo),
-                _ => throw new Exception("Unrecognized game")
-            };
-        } 
-
-        private static IPlayer SelectPlayer(int playerNumber) {
-            // TODO Reflection/Source Generators
-            var players = new[] { "Human", "Computer" };
-            var playerList = string.Join('\n', players.Select((item, i) => $"{i}: {item}"));
-            System.Console.Write($"Pick a player type for player {playerNumber}:\n{playerList}\n\nYour choice: ");
-            int choice = int.Parse(System.Console.ReadLine());
-            System.Console.WriteLine();
-
-            IPlayer player = choice switch {
-                0 => new HumanPlayer(),
-                1 => new ComputerPlayer(),
-                _ => throw new Exception("Unrecognized player")
-            };
-
-            System.Console.Write($"Enter a name for {players[choice]} player: ");
-            player.Name = System.Console.ReadLine();
-            System.Console.WriteLine();
-
-            return player;
-        }
-    }
+    return choice switch
+    {
+        0 => new HumanPlayer(name),
+        1 => new ComputerPlayer(name),
+        _ => throw new Exception("Unrecognized player")
+    };
 }
