@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Figgle;
 using Janken.Console.Utils;
 using Janken.Core;
 using Janken.Core.Models;
 
-System.Console.WriteLine("Janken! v1.0.0\n---");
+System.Console.WriteLine(FiggleFonts.Standard.Render("Janken!") + "Janken! v1.0.0\n---");
 
 var engine = SelectEngine(SelectPlayer(1), SelectPlayer(2));
 var game = new Game(engine);

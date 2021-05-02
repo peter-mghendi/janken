@@ -4,6 +4,10 @@
     <ProjectReference Include="..\Janken.Core\Janken.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Figgle" Version="0.4.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
