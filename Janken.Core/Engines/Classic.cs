@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Janken.Core.Attributes;
 using Janken.Core.Models;
 
 namespace Janken.Core.Engines
 {
+    [Engine]
     public class Classic : IEngine
     {
         public IPlayer PlayerOne { get; init; }

@@ -17,17 +17,17 @@ System.Console.WriteLine(result);
 
 static IEngine SelectEngine(IPlayer playerOne, IPlayer playerTwo)
 {
-    var engineList = Game.Engines.Select((type, i) => $"{i}: {type.Name}").ToList();
+    var engineList = Game.Engines.Select((engine, i) => $"{i}: {engine}").ToList();
     int choice = Input.PromptList($"Pick an engine:", engineList);
-    Console.WriteLine($"\nStarting game with {Game.Engines[choice].Name.ToLower()} engine.\n");
+    Console.WriteLine($"\nStarting game with {Game.Engines[choice].ToLower()} engine.\n");
     return Game.SelectEngine(choice, playerOne, playerTwo);
 }
 
 static IPlayer SelectPlayer(int playerNumber)
 {
-    var playerList = Game.Players.Select((type, i) => $"{i}: {type.Name}").ToList();
+    var playerList = Game.Players.Select((player, i) => $"{i}: {player}").ToList();
     int choice = Input.PromptList($"Pick a player type for player {playerNumber}:", playerList);
-    var name = Input.PromptString($"Enter a name for {Game.Players[choice].Name.ToLower()} player: ");
+    var name = Input.PromptString($"Enter a name for {Game.Players[choice].ToLower()} player: ");
     System.Console.WriteLine($"\n{name} has joined the game!\n");
     return Game.SelectPlayer(choice, name);
 }

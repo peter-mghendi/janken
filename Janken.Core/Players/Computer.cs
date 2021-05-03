@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Janken.Core.Attributes;
 using Janken.Core.Models;
 
 namespace Janken.Core.Players
 {
+    [Player]
     public class Computer : IPlayer
     {
         public string Name { get; set; }

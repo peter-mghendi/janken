@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Janken.Console.Utils;
+using Janken.Core.Attributes;
 using Janken.Core.Models;
 
 namespace Janken.Console.Players
 {
-    public partial class Human : IPlayer
+    [Player]
+    public class Human : IPlayer
     {
         public string Name { get; set; }
 
