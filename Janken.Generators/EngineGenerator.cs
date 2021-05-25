@@ -15,6 +15,8 @@ namespace Janken.Generators
     [Generator]
     public class EngineGenerator : ISourceGenerator
     {
+        private const string EngineAttributeName = "Engine";
+
         public void Initialize(GeneratorInitializationContext context) { }
 
         public void Execute(GeneratorExecutionContext context)
@@ -38,7 +40,7 @@ namespace Janken.Core
 
         public static IEngine SelectEngine(int i, IPlayer playerOne, IPlayer playerTwo) => i switch
         {{
-            {string.Join(",\n", engineList.Select((engine, i) => $"{i} => new {engine.Identifier}(playerOne, playerTwo)")) + ","}
+            {string.Join(",\n\t\t\t", engineList.Select((engine, i) => $"{i} => new {engine.Identifier}(playerOne, playerTwo)")) + ","}
             _ => throw new Exception(""Unknown engine."")
         }};
     }}
@@ -63,12 +65,12 @@ namespace Janken.Core
         // TODO: Check for interface
         private static (string Identifier, string DisplayName)? TryGetEngine(Compilation compilation, ClassDeclarationSyntax component)
         {
-            IEnumerable<SyntaxNode> allNodes = compilation.SyntaxTrees.SelectMany(s => s.GetRoot().DescendantNodes());
-            IEnumerable<ClassDeclarationSyntax> allClasses = allNodes
+            IEnumerable<ClassDeclarationSyntax> allClasses = compilation.SyntaxTrees
+                .SelectMany(s => s.GetRoot().DescendantNodes())
                 .Where(d => d.IsKind(SyntaxKind.ClassDeclaration))
                 .OfType<ClassDeclarationSyntax>();
 
-            Func<AttributeSyntax, bool> predicate = attr => attr.Name.ToString() == "Engine";
+            Func<AttributeSyntax, bool> predicate = attr => attr.Name.ToString() == EngineAttributeName;
 
             var attributes = component.AttributeLists.SelectMany(x => x.Attributes)
                 .Where(predicate)
@@ -80,7 +82,6 @@ namespace Janken.Core
             {
                 return null;
             }
-
 
             var identifier = component.Identifier.Text;
             (string Identifier, string DisplayName) engineMeta = (identifier, identifier);

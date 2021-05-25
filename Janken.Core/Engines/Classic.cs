@@ -19,9 +19,9 @@ namespace Janken.Core.Engines
 
         private Dictionary<string, string> Table => new ()
         {
+            [Choices[0]] = Choices[2],
             [Choices[1]] = Choices[0],
             [Choices[2]] = Choices[1],
-            [Choices[0]] = Choices[2],
         };
 
         public IPlayer? Evaluate()
