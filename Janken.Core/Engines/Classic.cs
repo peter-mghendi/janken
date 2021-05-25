@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using Janken.Core.Attributes;
-using Janken.Core.Models;
+using Janken.Shared.Attributes;
+using Janken.Shared.Models;
 
 namespace Janken.Core.Engines
 {
     [Engine]
     public class Classic : IEngine
     {
-        public IPlayer PlayerOne { get; init; }
+        public IPlayer PlayerOne { get; }
         
-        public IPlayer PlayerTwo { get; init; }
+        public IPlayer PlayerTwo { get; }
 
         public Classic(IPlayer playerOne, IPlayer playerTwo) =>
             (PlayerOne, PlayerTwo) = (playerOne, playerTwo);

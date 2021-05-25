@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Janken.Core\Janken.Core.csproj" />
+    <ProjectReference Include="..\Janken.Shared\Janken.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

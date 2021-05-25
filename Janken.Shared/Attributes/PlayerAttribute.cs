@@ -1,10 +1,10 @@
 using System;
-namespace Janken.Core.Attributes
+namespace Janken.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class PlayerAttribute : Attribute
     {
-        public string? Name { get; init;}
+        public string? Name { get; }
 
         public PlayerAttribute(string? name = null) => Name = name;
     }

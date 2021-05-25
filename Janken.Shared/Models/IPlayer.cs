@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Janken.Core.Models
+namespace Janken.Shared.Models
 {
     public interface IPlayer
     {

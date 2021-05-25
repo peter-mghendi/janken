@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace Janken.Core.Models
+namespace Janken.Shared.Models
 {
     public interface IEngine
     {
-        public IPlayer PlayerOne { get; init; }
+        public IPlayer PlayerOne { get; }
 
-        public IPlayer PlayerTwo { get; init; }
+        public IPlayer PlayerTwo { get; }
 
         public List<string> Choices { get; }
 

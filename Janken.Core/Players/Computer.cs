@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Janken.Core.Attributes;
-using Janken.Core.Models;
+using Janken.Shared.Attributes;
+using Janken.Shared.Models;
 
 namespace Janken.Core.Players
 {
