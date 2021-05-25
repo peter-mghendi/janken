@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.Reflection.Metadata.Ecma335;
+using System;
 using System.Linq;
 using Figgle;
 using Janken.Console.Utils;
 using Janken.Core;
-using Janken.Core.Models;
+using Janken.Shared.Models;
 
 System.Console.WriteLine(FiggleFonts.Standard.Render("Janken!") + "Janken! v1.0.0\n---");
 
@@ -17,10 +18,11 @@ System.Console.WriteLine(result);
 
 static IEngine SelectEngine(IPlayer playerOne, IPlayer playerTwo)
 {
-    var engineList = Game.Engines.Select((engine, i) => $"{i}: {engine}").ToList();
+    // var engineList = Game.Engines.Select((engine, i) => $"{i}: {engine}").ToList();
+    var engineList = Meta.Engines.Select((engine, i) => $"{i}: {engine}").ToList();
     int choice = Input.PromptList($"Pick an engine:", engineList);
-    Console.WriteLine($"\nStarting game with {Game.Engines[choice].ToLower()} engine.\n");
-    return Game.SelectEngine(choice, playerOne, playerTwo);
+    Console.WriteLine($"\nStarting game with {Meta.Engines[choice].ToLower()} engine.\n");
+    return Meta.SelectEngine(choice, playerOne, playerTwo);
 }
 
 static IPlayer SelectPlayer(int playerNumber)

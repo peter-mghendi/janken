@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Janken.Core.Models;
+using Janken.Shared.Models;
 
-using Engine = Janken.Core.Attributes.EngineAttribute;
-using Player = Janken.Core.Attributes.PlayerAttribute;
+using Engine = Janken.Shared.Attributes.EngineAttribute;
+using Player = Janken.Shared.Attributes.PlayerAttribute;
 
 namespace Janken.Core
 {
@@ -14,20 +14,18 @@ namespace Janken.Core
 
         public Game(IEngine engine) => _engine = engine;
 
-        // TODO Source Generators
-        private static readonly List<Type> _engineList = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.GetTypes())
-            .Where(x => typeof(IEngine).IsAssignableFrom(x)
-                && x.GetCustomAttributes(typeof(Engine), true).Any()
-                && !x.IsInterface
-                && !x.IsAbstract)
-            .ToList();
+        // public static readonly List<Type> _engineList = AppDomain.CurrentDomain.GetAssemblies()
+        //     .SelectMany(x => x.GetTypes())
+        //     .Where(x => typeof(IEngine).IsAssignableFrom(x)
+        //         && x.GetCustomAttributes(typeof(Engine), true).Any()
+        //         && !x.IsInterface
+        //         && !x.IsAbstract)
+        //     .ToList();
 
-        // TODO Source Generators
-        public static readonly List<string> Engines = _engineList
-           .Select(x => ((Engine)Attribute.GetCustomAttribute(x, typeof(Engine))!)
-               .Name ?? x.Name)
-           .ToList();
+        // public static readonly List<string> Engines = _engineList
+        //    .Select(x => ((Engine)Attribute.GetCustomAttribute(x, typeof(Engine))!)
+        //        .Name ?? x.Name)
+        //    .ToList();
 
         // TODO Source Generators
         private static readonly List<Type> _playerList = AppDomain.CurrentDomain.GetAssemblies()
@@ -44,9 +42,8 @@ namespace Janken.Core
                .Name ?? x.Name)
            .ToList();
 
-        // TODO Source Generators
-        public static IEngine SelectEngine(int i, IPlayer playerOne, IPlayer playerTwo) =>
-            (Activator.CreateInstance(_engineList[i], args: new[] { playerOne, playerTwo }) as IEngine)!;
+        // public static IEngine SelectEngine(int i, IPlayer playerOne, IPlayer playerTwo) =>
+        //     (Activator.CreateInstance(_engineList[i], args: new[] { playerOne, playerTwo }) as IEngine)!;
 
         // TODO Source Generators
         public static IPlayer SelectPlayer(int i, string name) =>
