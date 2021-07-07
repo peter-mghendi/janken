@@ -1,7 +1,7 @@
 ![GitHub](https://img.shields.io/github/license/sixpeteunder/janken)
 
 # Janken
-Because why not?
+Source generating ALL THE THINGS!
 
 [Wikipedia](https://en.wikipedia.org/wiki/Rock_paper_scissors)
 
